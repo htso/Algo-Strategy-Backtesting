@@ -5,8 +5,6 @@
 #       https://www.carma.newcastle.edu.au/jon/backtest2.pdf
 #       Lopez de Prado (2018), Advances in Financial Machine Learning, John Wiley & Sons, Inc.
 
-library(MLmetrics)
-library(mlbench)
 library(PBO)
 
 home = "/where/you/put/this/code/project"
@@ -16,8 +14,8 @@ setwd(home)
 # Each row is one period, while each column is a strategy (or strategy configuration)
 
 N = 20 # no of strategies
-TT = 5000 # no of observations
-S = 10 # no of partitions
+TT = 1560 # no of observations
+S = 20 # no of partitions
 
 set.seed(99989)
 M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)

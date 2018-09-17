@@ -29,7 +29,7 @@ The typical case is that you think you've found a neat algorithm to make step-ah
 At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1560 performance numbers. The grid search made 20 trials, meaning that you really have 20
 different models trained with different hyperparamters. 
 
-Now put all of these into a matrix, which would have 1,560 rows and 20 columns, and this is your matrix M.
+Now, put all of these into a matrix, which would have 1,560 rows and 20 columns, and call this M.
 
 For illustration, I use gaussian random variates to represent your return matrix M. 
 
@@ -39,11 +39,20 @@ For illustration, I use gaussian random variates to represent your return matrix
     set.seed(99989)
     M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)
 
+Pick an even number S, which, as I'll explain below, should be more than 6 and less than 20. Let's use 10.
 
+    S = 10
+
+Then, you want to divide M into 10 submatrices of equal size, which in this case would have 156 rows and 20 columns. The function `DivideMat` does that for you.
+
+    Ms = DivideMat(M, S)
+    length(Ms)
+
+where Ms is a list of length 10, each element is a 156 x 20 matrix. Next, you generate all combinations of 10 objects taking 5 at a time. There are a total of 252 combinations.   
 
  
 
-This code is found in the /demo subfolder. To run it, 
+This code can be found in the /demo subfolder. To run it, 
 
     setwd(system.file(package="PBO"))
     demo(Tutorial)
