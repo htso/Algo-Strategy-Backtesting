@@ -26,18 +26,7 @@ Let's start with a simple example and see how to use the functions in this packa
 
 The typical case is that you think you've found a neat algorithm to make step-ahead forecast after searching through a long history of stock prices. The training procedure that landed you the final model depends on a couple of hyperparameters. After extensive grid search, you found the optimal combination of these hyperparamters. (Don't worry about the multiple testing issue for now -- although that's a major problem with this approach.) 
 
-At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1560 performance numbers. The grid search made 20 trials, meaning that you really have 20
-different models trained with different hyperparamters. 
-
-Now put all of these into a matrix, which would have 1,560 rows and 20 columns, and this is your matrix M.
-
-For illustration, I use gaussian random variates to represent your return matrix M. 
-
-    N = 20 
-    TT = 1560 
-
-    set.seed(99989)
-    M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)
+At each attempt to find a better model, you run through all the data you have, beginning in 1980-01-01 and ending in 2018-09-11. 
 
 
 
