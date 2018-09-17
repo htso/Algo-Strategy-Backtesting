@@ -8,7 +8,7 @@ In Bailey et al[1], they take the approach that a model's performance should be 
 subset of the training-validation pairs. By evaluating every combination of these pairs, one could 
 quantify empirically the degree (probability) that a model trained on historic data is overfitted (backtest overfitting).
 
-This is a R implementation of their algorithm, separately described in a recent book[2]. The variable names follows the notation in Chapter 11 of said book. 
+This is a R implementation of their algorithm, separately described in a recent book[2]. The variable names closely follow the notation in Chapter 11 of said book. 
 
 ## Installation
 To install directly from github, open a terminal, type R, then
@@ -24,7 +24,7 @@ You need the following packages. To install from a terminal, type
 
 Let's start with a simple example and see how the various functions work.
 
-The typical case is that you think you've found a neat algorithm to make step-ahead forecast after searching through a long history of stock prices. The training procedure that landed you the final model depends on a couple of hyperparameters. After some grid search, you found the optimal combination of these hyperparamters. (Don't worry about the multiple testing issue for now -- although that's a major problem with this approach.) 
+The typical case is that you think you've found a neat algorithm to make step-ahead forecast after searching through a long history of stock prices. The training procedure that landed you the final model depends on a couple of hyperparameters. After some grid search, you found the optimal combination of these hyperparamters. (Don't worry about the multiple testing issue for now, although that's a major problem.) 
 
 At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1560 performance numbers. The grid search made 20 trials, meaning that you really have 20
 different models trained with different hyperparamters. 
@@ -63,12 +63,11 @@ The last step is to call function `PBO`, which returns a value in range of [0,1)
 
     pbo = PBO(Lambda)
 
-High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I'll write about in a separate note. Here is the histogram of Lambda.
+High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I'll write about in a separate blog. Here is the histogram of Lambda.
 
 ![lambdadistrib](https://user-images.githubusercontent.com/5498043/45640714-3ac2a500-ba68-11e8-957e-fd61f08bf00d.png)
 
-The choice of `S` is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push `S` to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more
-RAM. 
+The choice of `S` is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push `S` to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more RAM. 
 
 This concludes a short tutorial of PBO.
 
