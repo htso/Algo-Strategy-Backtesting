@@ -52,20 +52,24 @@ where `Ms` is a list of length 10, whose elements are 156 x 20 matrices. Next, y
 
     res <- TrainValSplit(Ms)  
 
-The function returns an object `res` which is a list of two lists, each of length 252. The first is the combinatorially perturbed training sets, and the second list has the partitions that are not in the corresponding train set, which is the validation set we want. If you find this confusing, pause and think about what this is doing. 
+The function returns an object `res` which is a list of two lists, each of length 252. The first is the combinatorially "perturbed" training sets, and the second has the data that's not in the first one, which is the validation set we want. If you find this confusing, pause and think about what this is doing. 
 
-With these two (very long) list objects, you are ready to calculate $\lambda_c$, which gives you the distribution from which you estimate the empirical probability of overfitting. 
+With these two (very long) list objects, you are ready to calculate `lambda`, which gives you a distribution from which you estimate the empirical probability of overfitting. 
 
     res1 <- CalcLambda(res$Train, res$Val, eval.method="ave")
     Lambda = res1$lambda
 
-Lambda is the relative rank of the best in-sample strategy out-of-sample. Again, if this doesn't make sense, don't worry about it for now.
+Lambda is a vector of length 252, ie. each value corresponds to one combination, which is the relative rank of the best in-sample strategy out-of-sample. Again, if this doesn't make sense, don't worry about it.
 
-The last step is to call function `PBO`, which returns a probability value in range of [0,1),
+The last step is to call function `PBO`, which returns a value in range of [0,1), and this is the probability that your strategies 
 
     pbo = PBO(Lambda)
 
-The higher PBO tells you that your models are likely to overfit. This concludes a short tutorial of using the package PBO.
+High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I will write about in a separate note.
+
+The choice of S is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push S to around 20. Anyway beyond 20 does not seem practical -- Bin(22,11) is 705,432
+
+This concludes a short tutorial of PBO.
 
 The above code can be found in the /demo subfolder. To run it, 
 
