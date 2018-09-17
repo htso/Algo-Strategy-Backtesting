@@ -22,16 +22,14 @@ You need the following packages. To install from a terminal, type
 
 # Tutorial
 
-Let's start with a simple example and see how to use the functions in this package to compute the probability of overfitting.
+Let's start with a simple example and see how the various functions work.
 
-The typical case is that you think you've found a neat algorithm to make step-ahead forecast after searching through a long history of stock prices. The training procedure that landed you the final model depends on a couple of hyperparameters. After extensive grid search, you found the optimal combination of these hyperparamters. (Don't worry about the multiple testing issue for now -- although that's a major problem with this approach.) 
+The typical case is that you think you've found a neat algorithm to make step-ahead forecast after searching through a long history of stock prices. The training procedure that landed you the final model depends on a couple of hyperparameters. After some grid search, you found the optimal combination of these hyperparamters. (Don't worry about the multiple testing issue for now -- although that's a major problem with this approach.) 
 
 At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1560 performance numbers. The grid search made 20 trials, meaning that you really have 20
 different models trained with different hyperparamters. 
 
-Now, put all of these into a matrix, which would have 1,560 rows and 20 columns, and call this `M`.
-
-For illustration, I use gaussian random variates to represent your return matrix `M`. 
+Now, put all of these into a matrix, which would have 1,560 rows and 20 columns, and call this `M`. For illustration, I use gaussian random variates to represent the return matrix `M`. 
 
     N = 20 
     TT = 1560 
@@ -39,7 +37,7 @@ For illustration, I use gaussian random variates to represent your return matrix
     set.seed(99989)
     M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)
 
-Pick an even number `S`, which, as I'll explain below, should be more than 6 and less than 20. Let's use 10.
+Pick an _even_ number `S`, which, as I'll explain below, should be more than 6 and less than 20.
 
     S = 10
 
@@ -54,20 +52,21 @@ where `Ms` is a list of length 10, whose elements are 156 x 20 matrices. Next, y
 
 The function returns an object `res` which is a list of two lists, each of length 252. The first is the combinatorially "perturbed" training sets, and the second has the data that's not in the first one, which is the validation set we want. If you find this confusing, pause and think about what this is doing. 
 
-With these two (very long) list objects, you are ready to calculate `lambda`, which gives you a distribution from which you estimate the empirical probability of overfitting. 
+With these two (very long) list objects, you're ready to calculate `lambda`, which gives you a distribution from which you estimate the empirical probability of overfitting. 
 
     res1 <- CalcLambda(res$Train, res$Val, eval.method="ave")
     Lambda = res1$lambda
 
 Lambda is a vector of length 252, ie. each value corresponds to one combination, which is the relative rank of the best in-sample strategy out-of-sample. Again, if this doesn't make sense, don't worry about it.
 
-The last step is to call function `PBO`, which returns a value in range of [0,1), and this is the probability that your strategies 
+The last step is to call function `PBO`, which returns a value in range of [0,1), and this is interpreted as a probability, 
 
     pbo = PBO(Lambda)
 
-High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I will write about in a separate note.
+High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I'll write about in a separate note.
 
-The choice of S is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push S to around 20. Anyway beyond 20 does not seem practical -- Bin(22,11) is 705,432
+The choice of S is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push S to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more
+RAM. 
 
 This concludes a short tutorial of PBO.
 
