@@ -65,7 +65,7 @@ The last step is to call function `PBO`, which returns a value in range of [0,1)
 
 High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I'll write about in a separate note.
 
-The choice of S is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push S to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more
+The choice of `S` is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push `S` to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more
 RAM. 
 
 This concludes a short tutorial of PBO.
@@ -76,7 +76,7 @@ The above code can be found in the /demo subfolder. To run it,
     demo(Tutorial)
 
 # WARNING
-As in many other combinatoric problems, the scale of computation and memory requirement grow exponentially with the number of partitions. It is recommended that S be set to no more than 20. 
+As in many other combinatoric problems, the scale of computation and memory requirement grow exponentially with the number of partitions. It is recommended that `S` be set to no more than 20. 
 
 # Platforms
 Developed and tested on Linux (ubuntu 14.04), R 3.4.4.
@@ -84,6 +84,7 @@ Developed and tested on Linux (ubuntu 14.04), R 3.4.4.
 # Bugs
 Please report all bugs to horacetso@gmail.com
 
+# References
 [1] Bailey, D. H., Borwein, J., Lopez de Prado, M., & Zhu, Q. J. (2016). The probability of backtest overfitting. https://www.carma.newcastle.edu.au/jon/backtest2.pdf
 
 [2] Lopez de Prado (2018), Advances in Financial Machine Learning, John Wiley & Sons, Inc.
