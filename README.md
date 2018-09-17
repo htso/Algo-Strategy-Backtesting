@@ -10,17 +10,17 @@ quantify empirically the degree (probability) that a model trained on historic d
 
 This is a R implementation of their algorithm, separately described in a recent book[2]. The variable names follows the notation in Chapter 11 of said book. 
 
-# Installation
+## Installation
 To install directly from github, open a terminal, type R, then
 
     devtools::install_github('htso/PBO')
 
-# Dependencies
+## Dependencies
 You need the following packages. To install from a terminal, type 
 
     install.packages("gtools", "foreach", "parallel")
 
-# Tutorial
+## Tutorial
 
 Let's start with a simple example and see how the various functions work.
 
@@ -77,16 +77,16 @@ The above code can be found in the /demo subfolder. To run it,
     setwd(system.file(package="PBO"))
     demo(Tutorial)
 
-# WARNING
+## WARNING
 As in many other combinatoric problems, the scale of computation and memory requirement grow exponentially with the number of partitions. It is recommended that `S` be set to no more than 20. 
 
-# Platforms
+## Platforms
 Developed and tested on Linux (ubuntu 14.04), R 3.4.4.
 
-# Bugs
+## Bugs
 Please report all bugs to horacetso@gmail.com
 
-# References
+## References
 [1] Bailey, D. H., Borwein, J., Lopez de Prado, M., & Zhu, Q. J. (2016). The probability of backtest overfitting. https://www.carma.newcastle.edu.au/jon/backtest2.pdf
 
 [2] Lopez de Prado (2018), Advances in Financial Machine Learning, John Wiley & Sons, Inc.
