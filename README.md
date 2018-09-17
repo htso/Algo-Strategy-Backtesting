@@ -62,12 +62,13 @@ Lambda is a vector of length 252, ie. each value corresponds to one combination,
 The last step is to call function `PBO`, which returns a value in range of [0,1), and this is interpreted as a probability, 
 
     pbo = PBO(Lambda)
+    [1] 0.4126984
 
-High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I'll write about in a separate blog. Here is the histogram of Lambda.
+So, there is a 41% probability of overfitting. High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I'll write about in a separate blog. Here is the histogram of Lambda.
 
 ![lambdadistrib](https://user-images.githubusercontent.com/5498043/45640714-3ac2a500-ba68-11e8-957e-fd61f08bf00d.png)
 
-The choice of `S` is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push `S` to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more RAM. 
+The choice of `S` is not critical but must be considered in the context of the computing capability you have access to. For exa[1] 0.4126984mple, on a Linux box with 40 Gb of RAM, I could push `S` to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more RAM. 
 
 This concludes a short tutorial of PBO.
 
