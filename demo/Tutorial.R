@@ -15,7 +15,17 @@ TT = 1560 # no of observations
 S = 10 # no of partitions
 
 set.seed(99989)
+# strategies have no skill
 M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)
+# flat return
+M = matrix(0.1, ncol=N, nrow=TT)
+# many returns are zero
+x = rnorm(N*TT, mean=0.1, sd=0.5)
+x[which(rpois(N*TT, 1) > 0)] <- 0
+M = matrix(x, ncol=N, nrow=TT)
+
+
+
 Ms = DivideMat(M, S)
 res <- TrainValSplit(Ms)
 res1 <- CalcLambda(res$Train, res$Val, eval.method="ave")
