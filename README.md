@@ -66,7 +66,10 @@ The last step is to call function `PBO`, which returns a value in range of [0,1)
 High PBO tells you that your models are likely overfitted. However, there are some cautionary tales with regard to its proper usage, which I'll write about in a separate note. Here is histogram of Lambda.
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> d14d58da7c238f9d8207b0a384f712a00628e0f3
 The choice of `S` is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push `S` to around 20. Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires eight times more
 RAM. 
 
