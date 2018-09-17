@@ -1,0 +1,39 @@
+# Tutorial.R -- tutorial on Combinatorially Symmetric Cross Validation algorithm (Bailey et al 2017)
+# Sep 11, 2018
+# (c) Horace W Tso
+# Ref : Bailey, D. H., Borwein, J., Lopez de Prado, M., & Zhu, Q. J. (2016). The probability of backtest overfitting.
+#       https://www.carma.newcastle.edu.au/jon/backtest2.pdf
+#       Lopez de Prado (2018), Advances in Financial Machine Learning, John Wiley & Sons, Inc.
+
+library(MLmetrics)
+library(mlbench)
+library(PBO)
+
+home = "/where/you/put/this/code/project"
+setwd(home)
+
+# M is the matrix of returns.
+# Each row is one period, while each column is a strategy (or strategy configuration)
+
+N = 20 # no of strategies
+TT = 5000 # no of observations
+S = 10 # no of partitions
+
+set.seed(99989)
+M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)
+Ms = DivideMat(M, S)
+res <- TrainValSplit(Ms)
+res1 <- CalcLambda(res$Train, res$Val, eval.method="ave")
+Lambda = res1$lambda
+(pbo = PBO(Lambda))
+
+res1 = CalcLambda(res$Train, res$Val, eval.method="SR")
+Lambda = res1$lambda
+(pbo = PBO(Lambda))
+
+
+
+
+
+
+

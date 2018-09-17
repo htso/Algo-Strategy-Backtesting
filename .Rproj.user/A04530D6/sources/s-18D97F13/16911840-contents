@@ -1,0 +1,93 @@
+# compile-Package.R -- compile my own packages
+library(devtools)
+library(roxygen2)
+library(Rcpp)
+
+home.dir = "~/Adma"
+home.dir = "~/SegmStrat"
+home.dir = "~/Dropbox/CAISO-DBOX/"
+home.dir = "/media/rspace/ClearWaterBay/CAISO"
+
+cafun.dir = "~/Dropbox/CAISO-DBOX/caFUN"
+
+hext.dir = "/media/rspace/RepulseBay/Rhome/HMM-packages-and-papers/Hext/Hext_new"
+init.dir = "/media/rspace/RepulseBay/Rhome/HMM-packages-and-papers/InitExp"
+
+
+detach(name="package:PBO", unload=TRUE)
+setwd("/media/rspace/WanChai/Dropbox/TSOTHOUGHTS/AlgoTrading/PBO")
+document()
+setwd("..")
+install("PBO")
+
+
+detach(name="package:goodies", unload=TRUE)
+setwd("/media/rspace/WanChai/Dropbox/Rhome/goodies")
+document()
+setwd("..")
+install("goodies")
+
+
+detach(name="package:Adma", unload=TRUE)
+
+
+library(devtools)
+library(roxygen2)
+setwd("/media/rspace/WanChai/Dropbox/TSOTHOUGHTS/AdaptiveMAStrategy/Adma_Package/Adma")
+document()
+setwd("..")
+install("Adma")
+
+
+
+detach(name="package:SegmStrat", unload=TRUE)
+setwd("/media/rspace/WanChai/Dropbox/STOCKALGO/SegmStrat_Package/SegmStrat")
+document()
+setwd("..")
+install("SegmStrat")
+
+
+
+
+h2o.init( nthreads=2,    ## -1: use all available threads
+  max_mem_size = "4G")    ## specify the memory size for the H2O cloud
+
+
+
+detach(name="package:caFUN", unload=TRUE)
+setwd(cafun.dir)
+document()
+setwd("..")
+install("caFUN")
+
+
+detach(name="package:InitExp", unload=TRUE)
+detach(name="package:Hext", unload=TRUE)
+setwd(hext.dir)
+document()
+# NOTE : open NAMESPACE with an editor, add this line at the top :
+#     useDynLib(Hext)
+setwd("..")
+install("Hext_new")
+
+
+detach(name="package:InitExp", unload=TRUE)
+setwd(init.dir)
+document()
+setwd("..")
+install("InitExp")
+
+
+
+setwd("/media/rspace/RepulseBay/Rhome/Nonstationary")
+setwd( "./Nonstationary")
+document()
+setwd("..")
+install("Nonstationary")
+
+
+
+
+
+
+
