@@ -64,7 +64,7 @@ The last step is to call function `PBO`, which returns a value in range of [0,1)
     pbo = PBO(Lambda)
     [1] 0.4126984
 
-So, there is a 41% probability of overfitting. High PBO is a warning of overfitting. However, there are cautionary tales with regard to its proper usage, which I'll write about in a separate blog. Here is the histogram of Lambda.
+So, there is a 41% probability of overfitting. High PBO is a warning of overfitting, but it may not be sufficient evidence to reject a model. There are cautionary tales with regard to its proper usage, which I'll write about in a separate blog. Here is the histogram of Lambda.
 
 ![lambdadistrib](https://user-images.githubusercontent.com/5498043/45640714-3ac2a500-ba68-11e8-957e-fd61f08bf00d.png)
 
@@ -79,6 +79,9 @@ The above code can be found in the /demo subfolder. To run it,
 
 ## WARNING
 As in many other combinatoric problems, the scale of computation and memory requirement grow exponentially with the number of partitions. It is recommended that `S` be set to no more than 20. 
+
+## Cousins
+A python implementation of PBO is forthcoming. Stay tuned.
 
 ## Platforms
 Developed and tested on Linux (ubuntu 14.04), R 3.4.4.
