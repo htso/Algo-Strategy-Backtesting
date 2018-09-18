@@ -77,6 +77,9 @@ The above code can be found in the /demo subfolder. To run it,
     setwd(system.file(package="PBO"))
     demo(Tutorial)
 
+## Documentation
+Just like any R package, type `?function` at command line will bring up the function's help page. I invested a lot of effort in explaining what each function does.
+
 ## WARNING
 As in many other combinatoric problems, the scale of computation and memory requirement grow exponentially with the number of partitions. It is recommended that `S` be set to no more than 20. 
 
