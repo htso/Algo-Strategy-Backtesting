@@ -165,7 +165,7 @@ CalcLambda = function(Train, Val, eval.method="ave", risk.free.rate=0.02) {
 #' @param lambda numeric vector, which is the relative rank logit, or lambda from CalcLambda()
 #' @description Calculate the Probability of Backtest Overfitting as in section 11.6
 #'    of Lopez de Prado's book. It is the area of the lambda distribution to the
-#'    left of 0. In other words, it is the cumulative probability that the out-of-sample
+#'    left of 0, including 0. In other words, it is the cumulative probability that the out-of-sample
 #'    relative rank of a strategy is lower (or worse) than the in-sample rank.
 #'
 #'         PBO = Integral_{-Inf}^{0} p(lambda) dlambda
@@ -186,7 +186,7 @@ CalcLambda = function(Train, Val, eval.method="ave", risk.free.rate=0.02) {
 #'    (pbo = PBO(res1$lambda))
 #' @export
 PBO = function(lambda) {
-  return(sum( lambda < 0 )/length(lambda))
+  return(sum( lambda <= 0 )/length(lambda))
 }
 
 

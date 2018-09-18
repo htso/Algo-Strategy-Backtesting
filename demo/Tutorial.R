@@ -17,14 +17,21 @@ S = 10 # no of partitions
 set.seed(99989)
 # Case 1. all strategies have no skill
 M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)
-# Case 2. flat return -- fixed deposit with Federal Reserve
-M = matrix(0.1, ncol=N, nrow=TT)
+# Case 2. flat return -- ST treasury notes
+M = matrix(0.05, ncol=N, nrow=TT)
 # Case 3. many zero returns -- event-driven strategies
 x = rnorm(N*TT, mean=0.1, sd=0.5)
 x[which(rpois(N*TT, 1) > 0)] <- 0
 M = matrix(x, ncol=N, nrow=TT)
 # Case 4. serially correlated returns
-M = matrix(arima.sim(model=list(ar=0.5), n=N*TT), ncol=N, nrow=TT)
+M = matrix(arima.sim(model=list(ar=0.2), n=N*TT), ncol=N, nrow=TT)
+X11();plot(M[,1], type="l")
+# Case 5. outliers
+M = matrix(rnorm(N*TT, mean=0, sd=1), ncol=N, nrow=TT)
+M[which(rpois(TT, 0.01) > 0), 1] <- 4.0
+X11();plot(M[,1], type="l")
+
+
 
 Ms = DivideMat(M, S)
 res <- TrainValSplit(Ms)
