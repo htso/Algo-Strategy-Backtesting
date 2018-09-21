@@ -22,11 +22,11 @@ You need the following packages. To install from a terminal, type
 
 ## Tutorial
 
-Before I dive into the algorithm, let me explain what PBO is and what it is not. First, PBO is an assessment of the *_modeling process_* that traders use to find a good strategy. So, the basic requirement (the crucial assumption) is you have to be honest and provide the data from the _entire_ process that leads you to a final model. I'll elaborate more on this point below. 
+Before I dive into the algorithm, let me explain what PBO is and what it is not. First, PBO is an assessment of the *_modeling process_* that traders use to find a good strategy. So, the basic requirement (the crucial assumption) is you are honest and provided all the data from the _entire_ process that led you to the final model. I'll elaborate more on this below. 
 
 Thus, this algorithm probably should be named "Probability of Backtest Procedure Overfitting".
 
-Secondly, PBO is not the right tool to evaluate a _single_ model. Let's say you have this dream about a crazy complex moving average one night. Next morning you coded it up and tested it on the S&P, and _voila_ you got a Sharpe ratio of 5.3! PBO can't help you with a probability that this strategy of yours is any good.
+Secondly, PBO is not the right tool to evaluate a _single_ model. Let's say you have this dream about a crazy complex moving average one night. Next morning you coded it up and tested it on the S&P, and _voila_ you got a Sharpe ratio of 2.1! PBO can't help you with a probability that this strategy of yours is any good.
 
 I'll start with a simple example and illustrate how the various functions work.
 
@@ -69,7 +69,7 @@ The last step is to call function `PBO`, which returns a value in range of [0,1)
     pbo = PBO(Lambda)
     [1] 0.4126984
 
-So, there is a 41% probability of overfitting. High PBO is a warning of overfitting, but it alone may not be sufficient to reject a model. There are cautionary tales with regard to its proper usage, which I'll write about in a separate blog. Here is the histogram of Lambda.
+So, there is a 41% probability that the procedure you used has led to an overfitted model. High PBO is a warning of overfitting, but it alone may not be sufficient to reject the model. There are cautionary tales with regard to its proper usage, which I'll write about in a separate blog. Here is the histogram of Lambda.
 
 ![lambdadistrib](https://user-images.githubusercontent.com/5498043/45640714-3ac2a500-ba68-11e8-957e-fd61f08bf00d.png)
 
@@ -89,7 +89,7 @@ Just like any R package, type `?function` at command line will bring up the func
 As in many other combinatoric problems, the scale of computation and memory requirement grow exponentially with the number of partitions. It is recommended that `S` be set to no more than 20. 
 
 ## Cousins
-A python implementation of PBO is forthcoming. Stay tuned.
+A python implementation is forthcoming. Stay tuned.
 
 ## Platforms
 Developed and tested on Linux (ubuntu 14.04), R 3.4.4.
