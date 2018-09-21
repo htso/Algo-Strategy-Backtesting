@@ -10,16 +10,6 @@ quantify empirically the degree (probability) that a modelling process trained o
 
 This is a R implementation of their algorithm, separately described in a recent book[2]. The variable names closely follow the notation in Chapter 11 of said book. 
 
-## Installation
-To install directly from github, open a terminal, type R, then
-
-    devtools::install_github('htso/PBO')
-
-## Dependencies
-You need the following packages. To install from a terminal, type 
-
-    install.packages("gtools", "foreach", "parallel")
-
 ## Tutorial
 
 Before I dive into the algorithm, let me explain what PBO is and what it is not. First, PBO is an assessment of the *_modeling process_* that traders use to find a good strategy. So, the basic requirement (the crucial assumption) is you are honest and provided all the data from the _entire_ process that led you to the final model. I'll elaborate more on this below. 
@@ -81,6 +71,17 @@ The above code can be found in the /demo subfolder. To run it,
 
     setwd(system.file(package="PBO"))
     demo(Tutorial)
+
+
+## Installation
+To install directly from github, open a terminal, type R, then
+
+    devtools::install_github('htso/PBO')
+
+## Dependencies
+You need the following packages. To install from a terminal, type 
+
+    install.packages("gtools", "foreach", "parallel")
 
 ## Documentation
 Just like any R package, type `?function` at command line will bring up the function's help page. I invested a lot of effort in explaining what each function does.
