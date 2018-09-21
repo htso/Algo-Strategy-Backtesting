@@ -22,12 +22,17 @@ You need the following packages. To install from a terminal, type
 
 ## Tutorial
 
-Let's start with a simple example and see how the various functions work.
+Before I dive into the algorithm, let me explain what PBO is and what it is not. First, PBO is an assessment of the _*modeling process*_ that traders use to find a good strategy. So, the basic requirement (the crucial assumption) is you have to be honest and provide the data from the _entire_ process that leads you to a final model. I'll elaborate more on this point below. 
 
-The typical case is that you think you've found a neat algorithm to make step-ahead forecast after searching through a long history of stock prices. The training procedure that landed you the final model depends on a couple of hyperparameters. After some grid search, you found the optimal combination of these hyperparamters. (Don't worry about the multiple testing issue for now, although that's a major problem.) 
+Thus, this algorithm probably should be named "Probability of Backtest Procedure Overfitting".
 
-At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1560 performance numbers. The grid search made 20 trials, meaning that you really have 20
-different models trained with different hyperparamters. 
+Secondly, PBO is not the right tool to evaluate a _single_ model. Let say you have this dream about a crazy complex moving average one night. Next morning you coded it up and tested it on the S&P, and voila you got a Sharpe ratio of 5.3. PBO can't help you with a probability that this strategy of yours is any good.
+
+I'll start with a simple example and illustrate how the various functions work.
+
+The typical case is that you think you've found a nice trading strategy using a very expressive deep learning model, e.g. LSTM recurrent neural network. You arrived at the final model after a grid search in the space of the LSTM hyperparameters, such as the number of layers, the number of memory cells, whether to use peep-hole connections, etc. You might have tested thousands of different model configurations before you become satisfied with the final one. This procedure, very typical in machine learning, is actually quite problematic for other reasons, but let's don't worry about them for now. 
+
+At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1560 performance numbers. The grid search made 20 trials, meaning that you really have 20 different models trained with different hyperparamters. 
 
 Now, put all of these into a matrix, which would have 1,560 rows and 20 columns, and call this `M`. For illustration, I use gaussian random variates to represent the return matrix `M`. 
 
