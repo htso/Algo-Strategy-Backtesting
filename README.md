@@ -6,7 +6,7 @@ Any trading strategy built on overfitted models puts the firm's capital and the 
 
 In Bailey et al[1], they take the approach that a model's performance should be consistent in any
 subset of the training-validation pairs. By evaluating every combination of these pairs, one could 
-quantify empirically the degree (probability) that a model trained on historic data is overfitted (backtest overfitting).
+quantify empirically the degree (probability) that a modelling process trained on historic data is overfitted (backtest procedure overfitting).
 
 This is a R implementation of their algorithm, separately described in a recent book[2]. The variable names closely follow the notation in Chapter 11 of said book. 
 
@@ -22,17 +22,17 @@ You need the following packages. To install from a terminal, type
 
 ## Tutorial
 
-Before I dive into the algorithm, let me explain what PBO is and what it is not. First, PBO is an assessment of the _*modeling process*_ that traders use to find a good strategy. So, the basic requirement (the crucial assumption) is you have to be honest and provide the data from the _entire_ process that leads you to a final model. I'll elaborate more on this point below. 
+Before I dive into the algorithm, let me explain what PBO is and what it is not. First, PBO is an assessment of the *_modeling process_* that traders use to find a good strategy. So, the basic requirement (the crucial assumption) is you have to be honest and provide the data from the _entire_ process that leads you to a final model. I'll elaborate more on this point below. 
 
 Thus, this algorithm probably should be named "Probability of Backtest Procedure Overfitting".
 
-Secondly, PBO is not the right tool to evaluate a _single_ model. Let say you have this dream about a crazy complex moving average one night. Next morning you coded it up and tested it on the S&P, and voila you got a Sharpe ratio of 5.3. PBO can't help you with a probability that this strategy of yours is any good.
+Secondly, PBO is not the right tool to evaluate a _single_ model. Let's say you have this dream about a crazy complex moving average one night. Next morning you coded it up and tested it on the S&P, and _voila_ you got a Sharpe ratio of 5.3! PBO can't help you with a probability that this strategy of yours is any good.
 
 I'll start with a simple example and illustrate how the various functions work.
 
-The typical case is that you think you've found a nice trading strategy using a very expressive deep learning model, e.g. LSTM recurrent neural network. You arrived at the final model after a grid search in the space of the LSTM hyperparameters, such as the number of layers, the number of memory cells, whether to use peep-hole connections, etc. You might have tested thousands of different model configurations before you become satisfied with the final one. This procedure, very typical in machine learning, is actually quite problematic for other reasons, but let's don't worry about them for now. 
+The typical case is that you think you've found a nice trading strategy using a very expressive deep learning model, e.g. LSTM recurrent neural network[3]. You arrived at the final model after a grid search in the space of the LSTM hyperparameters, such as the number of layers, the number of memory cells, whether to use peep-hole connections, etc. You might have tested thousands of different model configurations before you become satisfied with the final one. This procedure, very typical in machine learning, is actually problematic for other reasons[4], but let's don't worry about them here. 
 
-At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1560 performance numbers. The grid search made 20 trials, meaning that you really have 20 different models trained with different hyperparamters. 
+At each attempt to find a better model, you run through all the data you have, beginning in 1989-09-07 and ending in 2018-09-07, and generate a return for every week in the 30 year period, totally 1,560 performance numbers. The grid search made 20 trials (let's keep this small), meaning that you really have 20 similar, but slightly different models. 
 
 Now, put all of these into a matrix, which would have 1,560 rows and 20 columns, and call this `M`. For illustration, I use gaussian random variates to represent the return matrix `M`. 
 
@@ -75,7 +75,7 @@ So, there is a 41% probability of overfitting. High PBO is a warning of overfitt
 
 The choice of `S` is not critical but must be considered in the context of the computing capability you have access to. For example, on a Linux box with 40 Gb of RAM, I could push `S` to around 20, which uses 33 Gb of memeory (sure R is not very memory efficient). Anything beyond 20 does not seem practical -- Bin(22,11) is 705,432, which requires at least 264 Gb. 
 
-This concludes a short tutorial of PBO.
+This concludes the tutorial on PBO.
 
 The above code can be found in the /demo subfolder. To run it, 
 
@@ -102,5 +102,6 @@ Please report all bugs to horacetso@gmail.com
 
 [2] Lopez de Prado (2018), Advances in Financial Machine Learning, John Wiley & Sons, Inc.
 
+[3] Hochreiter, S., Schmidhuber, J. (1997). Long short-term memory. Neural computation, 9(8), 1735-1780.
 
-
+[4] Sculley, D., Snoek, J., Wiltschko, A., & Rahimi, A. (2018). Winner's Curse? On Pace, Progress, and Empirical Rigor. ICLR 2018.
