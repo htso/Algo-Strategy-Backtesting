@@ -4,7 +4,8 @@
 \alias{CalcLambda}
 \title{Calculate lambda and other attributes of the combinatoric train and validation matrices}
 \usage{
-CalcLambda(Train, Val, eval.method = "ave", risk.free.rate = 0.02)
+CalcLambda(Train, Val, eval.method = "ave", risk.free.rate = 0.02,
+  rank.ties.method = "random", verbose = FALSE)
 }
 \arguments{
 \item{Train}{list of matrices}

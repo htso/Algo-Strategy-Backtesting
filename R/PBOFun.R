@@ -129,7 +129,7 @@ TrainValSplit = function(Ms) {
 #'    res1 <- CalcLambda(res$Train, res$Val, eval.method="ave")
 #'    (Lambda = res1$lambda)
 #' @export
-CalcLambda = function(Train, Val, eval.method="ave", risk.free.rate=0.02) {
+CalcLambda = function(Train, Val, eval.method="ave", risk.free.rate=0.02, rank.ties.method="random", verbose=FALSE) {
   Ncomb = length(Train)
   N = ncol(Train[[1]])
   lambda = double(Ncomb)
@@ -137,27 +137,43 @@ CalcLambda = function(Train, Val, eval.method="ave", risk.free.rate=0.02) {
   w.bar = double(Ncomb)
   IS.best = double(Ncomb)
   OOS = double(Ncomb)
+  Kendall = double(Ncomb)
+  Spearman = double(Ncomb)
   for ( i in 1:Ncomb ) {
+    cat("==== i : ", i, " ======\n")
     if ( eval.method == "ave") {
-      R = colMeans(Train[[i]]) # average each column
+      R = colMeans(Train[[i]]) # metric is the average of a column
       R.bar = colMeans(Val[[i]])
     } else if ( eval.method == "SR" ) {
       ret.tr = colMeans(Train[[i]])
       ret.v = colMeans(Val[[i]])
       stdev.tr = apply(Train[[i]], 2, sd)
       stdev.v = apply(Val[[i]], 2, sd)
-      R = (ret.tr - risk.free.rate) / stdev.tr
-      R.bar = (ret.v - risk.free.rate) / stdev.v
+      R = ifelse( stdev.tr > 0, (ret.tr - risk.free.rate) / stdev.tr, 0)
+      R.bar = ifelse(stdev.v > 0, (ret.v - risk.free.rate) / stdev.v, 0)
     } else {
       stop("i don't know what to do with this eval.method.")
     }
-    IS.best[i] = max(R)
-    n.star[i] = which.max(R)
+    #if (verbose) cat("R :", R, "\n")
+    #if (verbose) cat("R.bar :", R.bar, "\n")
+    r.max = max(R, na.rm=FALSE) # error if NA is found
+    ix = which( R == r.max )
+    cnt = length(ix)
+    if ( cnt > 1 ) warning("more than one max in R; cnt : ", cnt, "\n")
+    IS.best[i] = r.max
+    # if there are more than one unique maximum, randomly pick one
+    n.star[i] = ix[sample(length(ix), size=1)]
+    if ( verbose ) cat("n* : ", n.star[i], "\t")
     OOS[i] = R.bar[n.star[i]]
-    w.bar[i] = rank(R.bar)[n.star[i]] / N
-    lambda[i] = log(w.bar[i]/(1 - w.bar[i]))
+    #if ( verbose ) cat("R.bar[n.star] : ", OOS[i], "\n")
+    if ( verbose ) cat("rank R.bar[n*] : ", base::rank(R.bar, ties.method=rank.ties.method)[n.star[i]] , "\n")
+    w.bar[i] = base::rank(R.bar, ties.method=rank.ties.method)[n.star[i]] / N
+    lambda[i] = log(w.bar[i] / (1 - w.bar[i]))
+    # Kendall and Spearman rank correlation
+    Kendall[i] = cor(R, R.bar, method="kendall")
+    Spearman[i] = cor(R, R.bar, method="spearman")
   }
-  return(list(lambda=lambda, n.star=n.star, w.bar=w.bar, IS.best=IS.best, OOS=OOS))
+  return(list(lambda=lambda, n.star=n.star, w.bar=w.bar, IS.best=IS.best, OOS=OOS, Kendall=Kendall, Spearman=Spearman))
 }
 
 #' Calculate the Probability of Backtest Overfitting (PBO)
